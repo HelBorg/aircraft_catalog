@@ -1,6 +1,7 @@
 package example.alenaelena.aircraft_catalog.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Manufacturer {
@@ -10,9 +11,11 @@ public class Manufacturer {
     private int id;
 
     @Column(name = "NAME")
+    @NotNull
     private String name;
 
     @Column(name = "COUNTRY")
+    @NotNull
     private String country;
 
     public Manufacturer() {

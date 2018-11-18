@@ -2,6 +2,7 @@ package example.alenaelena.aircraft_catalog.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Aircrafts")
@@ -12,35 +13,39 @@ public class Aircraft {
     private long id;
 
     @Column(name = "NUMBER")
+    @NotNull
     private String number;
-    999999null not null
+//    999999null not null
 
     @Column(name = "MODEL")
+    @NotNull
     private  String model;
 
     @Column(name = "YEAR")
+    @NotNull
     private int year;
 
     @Column(name = "CAPACITY")
+    @NotNull
     private int capacity;
 
-    @ManyToOne
     @Column(name = "Manufacturer_ID")
-    private Manufacturer manufId;
-    777777777777
+    @ManyToOne(cascade=CascadeType.PERSIST)
+    @NotNull
+    private Manufacturer manufacturer;
 
     public Aircraft() {
         super();
     }
 
     public Aircraft(String number, String model, int year,
-                     int capacity, int manufId) {
+                     int capacity, Manufacturer manufacturer) {
         super();
         this.number = number;
         this.model = model;
         this.year = year;
         this.capacity = capacity;
-        this.manufId = manufId;
+        this.manufacturer = manufacturer;
     }
 
     public long getId() {
@@ -79,11 +84,11 @@ public class Aircraft {
         return capacity;
     }
 
-    public void setManufId(int manufId) {
-        this.manufId = manufId;
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
     }
 
-    public int getManufId() {
-        return manufId;
+    public Manufacturer getManufacturer() {
+        return manufacturer;
     }
 }
