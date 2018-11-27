@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: aircraft_catalog
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: mylet
+Implementation-Vendor-Id: example.AlenaElena
+Created-By: IntelliJ IDEA
+Build-Jdk: 1.8.0_191
+Main-Class: ${start-class}
+

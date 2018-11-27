@@ -1,31 +1,28 @@
 package example.alenaelena.aircraft_catalog.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import lombok.*;
 
+import javax.persistence.*;
+
+@ToString
+@EqualsAndHashCode
 @Entity
 public class Manufacturer {
     @Id
-    @Column(name = "ID")
+//    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "NAME")
-    @NotNull
+//    @Column(name = "NAME")
+//    @NotNull
     private String name;
 
-    @Column(name = "COUNTRY")
-    @NotNull
+//    @Column(name = "COUNTRY")
+//    @NotNull
     private String country;
 
     public Manufacturer() {
         super();
-    }
-
-    public Manufacturer(String name, String country) {
-        super();
-        this.name = name;
-        this.country = country;
     }
 
     public int getId() {

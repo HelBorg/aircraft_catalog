@@ -1,51 +1,45 @@
 package example.alenaelena.aircraft_catalog.model;
 
+import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
+@ToString @EqualsAndHashCode
 @Entity
-@Table(name = "Aircrafts")
+@Table(name = "AircraftManager")
 public class Aircraft {
     @Id
-    @Column(name = "ID")
+//    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "NUMBER")
-    @NotNull
+//    @Column(name = "NUMBER")
+    @NonNull
     private String number;
-//    999999null not null
 
-    @Column(name = "MODEL")
-    @NotNull
+//    @Column(name = "MODEL")
+//    @NonNull
     private  String model;
 
-    @Column(name = "YEAR")
-    @NotNull
+//    @Column(name = "YEAR")
+//    @NonNull
     private int year;
 
-    @Column(name = "CAPACITY")
-    @NotNull
+//    @Column(name = "CAPACITY")
+//    @NonNull
     private int capacity;
 
-    @Column(name = "Manufacturer_ID")
+//    @Column(name = "Manufacturer_ID")
     @ManyToOne(cascade=CascadeType.PERSIST)
-    @NotNull
+//    @NonNull
     private Manufacturer manufacturer;
 
     public Aircraft() {
         super();
     }
 
-    public Aircraft(String number, String model, int year,
-                     int capacity, Manufacturer manufacturer) {
-        super();
-        this.number = number;
-        this.model = model;
-        this.year = year;
-        this.capacity = capacity;
-        this.manufacturer = manufacturer;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public long getId() {
@@ -91,4 +85,5 @@ public class Aircraft {
     public Manufacturer getManufacturer() {
         return manufacturer;
     }
+
 }

@@ -2,17 +2,23 @@ package example.alenaelena.aircraft_catalog.controller;
 
 import example.alenaelena.aircraft_catalog.model.Aircraft;
 import example.alenaelena.aircraft_catalog.repository.AircraftRepository;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.Optional;
 
-@Controller
-@RequestMapping("/main/record")
+@RestController
+@RequestMapping("/api") //aircrafts
 public class AircraftController {
 
-//    protected static final Logger logger = LoggerFactory.getLogger("controller");
+    protected static final Logger logger = LoggerFactory.getLogger(AircraftController.class);
 
     private AircraftRepository aircraftRepository;
 
@@ -21,33 +27,37 @@ public class AircraftController {
     }
 
     @GetMapping("/aircrafts")
-    Collection<Aircraft> aircrafts() {
+    Collection<Aircraft> aircrafts( ) {
         return aircraftRepository.findAll();
     }
 
-    @GetMapping("/aircraft/{ID}")
-    public  String aircraft(@PathVariable Long id, Model model) {
-        model.addAttribute("aircraft", aircraftRepository.findById(id));
-        return "aircraft";
+    @GetMapping("/aircraft/{id}")
+    ResponseEntity<?> getAircraft(@PathVariable Long id) {
+        Optional<Aircraft> aircraft = aircraftRepository.findById(id);
+        return aircraft.map(response -> ResponseEntity.ok().body(response))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @RequestMapping(value = "/aircraft/get", method = RequestMethod.GET)
-    public String aircraftsList(Model model) {
-        model.addAttribute("aircrafts", aircraftRepository.findAll());
-        return "aircrafts";
+    @PostMapping("/aircraft")
+    ResponseEntity<Aircraft> createAircraft(@Valid @RequestBody Aircraft aircraft) throws URISyntaxException {
+        logger.info("Request to create aircraft: {}", aircraft);
+        Aircraft result = aircraftRepository.save(aircraft);
+        return ResponseEntity.created(new URI("/main/record/aircraft" + result.getId()))
+                .body(result);
     }
 
-    @RequestMapping(value = "/aircrafts/add", method = RequestMethod.POST)
-    public String aircraftsAdd(@RequestParam String number, @RequestParam String mod,
-                               @RequestParam int year, @RequestParam int capacity, Model model) {
-        Aircraft newAircraft = new Aircraft();
-        newAircraft.setNumber(number);
-        newAircraft.setModel(mod);
-        newAircraft.setYear(year);
-        newAircraft.setCapacity(capacity);
-
-        model.addAttribute("aircraft", newAircraft);
-        return "redirect:/aircraft/" + newAircraft.getId();
+    @PutMapping("/aircraft/{id}")
+    ResponseEntity<Aircraft> updateAircraft(@PathVariable Long id, @Valid @RequestBody Aircraft aircraft) {
+        aircraft.setId(id);
+        logger.info("request to update aircraft: {}", aircraft);
+        Aircraft result = aircraftRepository.save(aircraft);
+        return ResponseEntity.ok().body(result); //Aircraft
     }
 
+    @DeleteMapping("/aircraft/{id}")
+    public ResponseEntity<?> deleteAircraft(@PathVariable Long id) {
+        logger.info("request to delete aircraft: {}", id);
+        aircraftRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
 }
