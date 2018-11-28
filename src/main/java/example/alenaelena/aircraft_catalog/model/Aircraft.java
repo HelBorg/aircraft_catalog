@@ -6,32 +6,22 @@ import javax.persistence.*;
 
 @ToString @EqualsAndHashCode
 @Entity
-@Table(name = "AircraftManager")
+@Table(name = "aircraft")
 public class Aircraft {
     @Id
-//    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-//    @Column(name = "NUMBER")
-    @NonNull
     private String number;
 
-//    @Column(name = "MODEL")
-//    @NonNull
     private  String model;
 
-//    @Column(name = "YEAR")
-//    @NonNull
     private int year;
 
-//    @Column(name = "CAPACITY")
-//    @NonNull
     private int capacity;
 
-//    @Column(name = "Manufacturer_ID")
     @ManyToOne(cascade=CascadeType.PERSIST)
-//    @NonNull
+    @JoinColumn(name = "Manufacturer_ID")
     private Manufacturer manufacturer;
 
     public Aircraft() {

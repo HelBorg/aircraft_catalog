@@ -10,7 +10,7 @@ class AircraftEdit extends Component {
         model: '',
         year: '',
         capacity: '',
-        // manufacturer: '',
+        manufacturer: '',
     };
 
     constructor(props) {
@@ -50,7 +50,7 @@ class AircraftEdit extends Component {
             },
             body: JSON.stringify(item),
         });
-        this.props.history.push('/aircrafts');
+        this.props.history.push('/aircraft');
     }
 
     render() {

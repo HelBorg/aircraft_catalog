@@ -1,24 +1,14 @@
 package example.alenaelena.aircraft_catalog.model;
 
-import lombok.*;
-
 import javax.persistence.*;
 
-@ToString
-@EqualsAndHashCode
 @Entity
+@Table(name = "manufacturer")
 public class Manufacturer {
     @Id
-//    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-//    @Column(name = "NAME")
-//    @NotNull
     private String name;
-
-//    @Column(name = "COUNTRY")
-//    @NotNull
     private String country;
 
     public Manufacturer() {

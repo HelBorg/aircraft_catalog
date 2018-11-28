@@ -6,14 +6,16 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import AircraftList from './AircraftList';
 
 class App extends Component {
+
     render() {
         return (
             <div className="pad_menu">
             <Router>
                 <Switch>
                     <Route path='/' exact={true} component={Home}/>
-                    <Route path='/aircrafts' exact={true} component={AircraftList}/>
-                    <Route path='/aircraft/:id' component={AircraftEdit}/>
+                    <Route path='/aircraft' exact={true} component={AircraftList}/>
+                    {/*<Route path='/aircraft/:id' component={Aircraft}>*/}
+                    <Route path='/aircraft/edit/:id' component={AircraftEdit}/>
                 </Switch>
             </Router>
             </div>

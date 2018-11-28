@@ -15,8 +15,8 @@ import java.util.Collection;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api") //aircrafts
-public class AircraftController {
+@RequestMapping("/api")
+public class    AircraftController {
 
     protected static final Logger logger = LoggerFactory.getLogger(AircraftController.class);
 
@@ -26,8 +26,8 @@ public class AircraftController {
         this.aircraftRepository = aircraftRepository;
     }
 
-    @GetMapping("/aircrafts")
-    Collection<Aircraft> aircrafts( ) {
+    @GetMapping("/aircraft")
+    Collection<Aircraft> aircraft( ) {
         return aircraftRepository.findAll();
     }
 
@@ -51,7 +51,7 @@ public class AircraftController {
         aircraft.setId(id);
         logger.info("request to update aircraft: {}", aircraft);
         Aircraft result = aircraftRepository.save(aircraft);
-        return ResponseEntity.ok().body(result); //Aircraft
+        return ResponseEntity.ok().body(result);
     }
 
     @DeleteMapping("/aircraft/{id}")

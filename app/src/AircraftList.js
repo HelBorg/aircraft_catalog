@@ -15,7 +15,7 @@ class AircraftList extends Component {
     componentDidMount() {
         this.setState({isLoading: true});
 
-        fetch('api/aircrafts')
+        fetch('api/aircraft')
             .then(response => response.json())
             .then(data => this.setState({aircrafts: data, isLoading: false}));
     }
@@ -53,13 +53,12 @@ class AircraftList extends Component {
             return <tr key={aircraft.id}>
                 <td style={{whiteSpace: 'nowrap'}}>{aircraft.number}</td>
                 <td style={{whiteSpace: 'nowrap'}}>{aircraft.model}</td>
-                <td style={{whiteSpace: 'nowrap'}}>{aircraft.year}</td>
-                <td style={{whiteSpace: 'nowrap'}}>{aircraft.capacity}</td>
-                {/*<td style={{whiteSpace: 'nowrap'}}>{aircraft.manufacturer}</td>*/}
+                <td style={{whiteSpace: 'nowrap'}}>{aircraft.manufacturer.name}</td>
                 <td>
                     <ButtonGroup>
-                        <Button size="sm" color="primary" tag={Link} to={"/aircraft/" + aircraft.id}>Edit</Button>
+                        <Button size="sm" color="primary" tag={Link} to={"/aircraft/edit/" + aircraft.id}>Edit</Button>
                         <Button size="sm" color="danger" onClick={() => this.remove(aircraft.id)}>Delete</Button>
+                        {/*<Button size="sm" color="danger" tag={Link} to={"/aircraft/" + aircraft.id}>More</Button>*/}
                     </ButtonGroup>
                 </td>
             </tr>
@@ -78,8 +77,7 @@ class AircraftList extends Component {
                         <tr>
                             <th width="30%">Number</th>
                             <th width="20%">Model</th>
-                            <th width="10%">Year</th>
-                            <th width="20%">Capacity</th>
+                            <th width="30%">Manufacturer</th>
                             <th width="20%">Actions</th>
                         </tr>
                         </thead>
