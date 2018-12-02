@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, ButtonGroup, Container, Table, Jumbotron } from 'reactstrap';
+import { Button, ButtonGroup, Container, Table, Jumbotron} from 'reactstrap';
 import AppNavbar from './AppNavbar';
 import { Link } from 'react-router-dom';
 
@@ -8,7 +8,10 @@ class AircraftList extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {aircrafts: [], isLoading: true};
+        this.state = {
+            aircrafts: [],
+            isLoading: true
+        };
         this.remove = this.remove.bind(this);
     }
 
@@ -17,7 +20,10 @@ class AircraftList extends Component {
 
         fetch('api/aircraft')
             .then(response => response.json())
-            .then(data => this.setState({aircrafts: data, isLoading: false}));
+            .then(data => this.setState({
+                aircrafts: data,
+                isLoading: false
+            }));
     }
 
     async remove(id) {
@@ -28,8 +34,8 @@ class AircraftList extends Component {
                 'Content-Type': 'application/json'
             }
         }).then(() => {
-            let updatedAircrafts = [...this.state.aircrafts].filter(i => i.id !== id);
-            this.setState({aircrafts: updatedAircrafts});
+            let updatedAircraft = [...this.state.aircrafts].filter(i => i.id !== id);
+            this.setState({aircrafts: updatedAircraft});
         });
     }
 
@@ -53,7 +59,7 @@ class AircraftList extends Component {
             return <tr key={aircraft.id}>
                 <td style={{whiteSpace: 'nowrap'}}>{aircraft.number}</td>
                 <td style={{whiteSpace: 'nowrap'}}>{aircraft.model}</td>
-                <td style={{whiteSpace: 'nowrap'}}>{aircraft.manufacturer.name}</td>
+                {/*<td style={{whiteSpace: 'nowrap'}}>{aircraft.manufacturer.name}</td>*/}
                 <td>
                     <ButtonGroup>
                         <Button size="sm" color="primary" tag={Link} to={"/aircraft/edit/" + aircraft.id}>Edit</Button>

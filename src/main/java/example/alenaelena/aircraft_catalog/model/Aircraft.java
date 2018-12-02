@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@ToString @EqualsAndHashCode
+@Data
 @Entity
 @Table(name = "aircraft")
 public class Aircraft {
@@ -20,12 +20,20 @@ public class Aircraft {
 
     private int capacity;
 
-    @ManyToOne(cascade=CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "Manufacturer_ID")
     private Manufacturer manufacturer;
 
     public Aircraft() {
         super();
+    }
+
+    public Aircraft(String number, String model, int year, int capacity, Manufacturer manufacturer) {
+        this.number = number;
+        this.model = model;
+        this.year = year;
+        this.capacity = capacity;
+        this.manufacturer = manufacturer;
     }
 
     public void setId(long id) {

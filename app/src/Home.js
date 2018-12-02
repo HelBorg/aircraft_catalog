@@ -13,6 +13,7 @@ class Home extends Component {
 
                 <Container fluid>
                     <Button color="secondary"><Link to="/aircraft">Manage Aircrafts</Link></Button>
+                    <Button color="secondary"><Link to="/manufacturer">Manage Manufacturers</Link></Button>
                 </Container>
             </div>
         );
