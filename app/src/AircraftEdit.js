@@ -82,14 +82,14 @@ class AircraftEdit extends Component {
                         <Input type="text" name="capacity" id="capacity" value={item.capacity || ''}
                                onChange={this.handleChange} autoComplete="capacity"/>
                     </FormGroup>
-                    {/*<FormGroup>*/}
-                        {/*<Label for="manufacturer">Manufacturer</Label>*/}
-                        {/*<Input type="text" name="manufacturer" id="manufacturer" value={item.manufacturer || ''}*/}
-                               {/*onChange={this.handleChange} autoComplete="manufacturer"/>*/}
-                    {/*</FormGroup>*/}
+                    <FormGroup>
+                        <Label for="manufacturer">Manufacturer</Label>
+                        <Input type="text" name="manufacturer" id="manufacturer" value={item.manufacturer.name || ''}
+                            onChange={this.handleChange} autoComplete="manufacturer"/>
+                    </FormGroup>
                     <FormGroup>
                         <Button color="primary" type="submit">Save</Button>{' '}
-                        <Button color="secondary" tag={Link} to="/aircrafts">Cancel</Button>
+                        <Button color="secondary" tag={Link} to="/aircraft">Cancel</Button>
                     </FormGroup>
                 </Form>
             </Container>

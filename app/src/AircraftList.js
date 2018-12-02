@@ -39,12 +39,12 @@ class AircraftList extends Component {
         if (isLoading) {
             return (
                 <div>
-                <Jumbotron fluid>
-                    <Container fluid>
-                        <h1 className="display-3">Please wait</h1>
-                        <p className="lead">Loading...</p>
-                    </Container>
-                </Jumbotron>
+                    <Jumbotron fluid>
+                        <Container fluid>
+                            <h1 className="display-3">Please wait</h1>
+                            <p className="lead">Loading...</p>
+                        </Container>
+                    </Jumbotron>
                 </div>
             );
         }
@@ -69,7 +69,7 @@ class AircraftList extends Component {
                 <AppNavbar/>
                 <Container fluid>
                     <div className="float-right">
-                        <Button color="success" tag={Link} to="/aircraft/new">Add Aircraft</Button>
+                        <Button color="success" tag={Link} to="/aircraft/edit/new">Add Aircraft</Button>
                     </div>
                     <h3>Aircraft List</h3>
                     <Table className="mt-4">
