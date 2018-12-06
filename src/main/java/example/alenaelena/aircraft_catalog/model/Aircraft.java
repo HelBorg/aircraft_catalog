@@ -24,16 +24,19 @@ public class Aircraft {
     @JoinColumn(name = "Manufacturer_ID")
     private Manufacturer manufacturer;
 
+    private Airline airline;
+
     public Aircraft() {
         super();
     }
 
-    public Aircraft(String number, String model, int year, int capacity, Manufacturer manufacturer) {
+    public Aircraft(String number, String model, int year, int capacity, Manufacturer manufacturer, Airline airline) {
         this.number = number;
         this.model = model;
         this.year = year;
         this.capacity = capacity;
         this.manufacturer = manufacturer;
+        this.airline = airline;
     }
 
     public void setId(long id) {
@@ -84,4 +87,11 @@ public class Aircraft {
         return manufacturer;
     }
 
+    public void setAirline(Airline airline) {
+        this.airline = airline;
+    }
+
+    public Airline getAirline() {
+        return airline;
+    }
 }

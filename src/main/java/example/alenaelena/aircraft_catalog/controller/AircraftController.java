@@ -8,13 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
 
 @RestController
 @RequestMapping("/api/aircraft")
-public class    AircraftController {
+public class AircraftController {
 
     protected static final Logger logger = LoggerFactory.getLogger(AircraftController.class);
 
@@ -38,16 +37,15 @@ public class    AircraftController {
     @PostMapping("/edit/new")
     public ResponseEntity<Aircraft> createAircraft(@Valid @RequestBody Aircraft aircraft) throws URISyntaxException {
         logger.info("Request to create aircraft: {}", aircraft);
-        Aircraft result = aircraftRepository.save(aircraft);
-        return ResponseEntity.created(new URI("/api/aircraft" + result.getId()))
-                .body(result);
+        aircraftRepository.save(aircraft);
+        return ResponseEntity.ok().body(aircraft);
     }
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<Aircraft> updateAircraft( @Valid @RequestBody Aircraft aircraft) {
         logger.info("request to update aircraft: {}", aircraft);
-        Aircraft result = aircraftRepository.save(aircraft);
-        return ResponseEntity.ok().body(result);
+        aircraftRepository.save(aircraft);
+        return ResponseEntity.ok().body(aircraft);
     }
 
     @DeleteMapping("/{id}")

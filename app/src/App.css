@@ -1,44 +1,48 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+    animation: App-logo-spin infinite 20s linear;
+    height: 40vmin;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
+}
+
+.btn_name{
+    margin-left:5px;
+    margin-right:5px;
 }
 
 .pad_menu {
-  /*background-image: image(https://www.google.ru/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiEqey6iOreAhVECiwKHe4GDN0QjRx6BAgBEAU&url=%2Furl%3Fsa%3Di%26source%3Dimages%26cd%3D%26ved%3D2ahUKEwiEqey6iOreAhVECiwKHe4GDN0QjRx6BAgBEAU%26url%3D%252Furl%253Fsa%253Di%2526source%253Dimages%2526cd%253D%2526cad%253Drja%2526uact%253D8%2526ved%253D2ahUKEwiEqey6iOreAhVECiwKHe4GDN0QjRx6BAgBEAU%2526url%253Dhttp%25253A%25252F%25252Fwww.ato.ru%25252Fcontent%25252Fpulkovo-privlechet-tranzitnyh-passazhirov%2526psig%253DAOvVaw0av-r1AoILCiT6hXJSrXlV%2526ust%253D1543047076970349%26psig%3DAOvVaw0av-r1AoILCiT6hXJSrXlV%26ust%3D1543047076970349&psig=AOvVaw0av-r1AoILCiT6hXJSrXlV&ust=1543047076970349);*/
-  background-color: #fff;
-  background-image: -webkit-linear-gradient(45deg,#efefef 25%,transparent 25%,transparent 75%,#efefef 75%,#efefef),-webkit-linear-gradient(45deg,#efefef 25%,transparent 25%,transparent 75%,#efefef 75%,#efefef);
-  background-position: 0 0,10px 10px;
+    background-color: #fff;
+    background-image: -webkit-linear-gradient(45deg,#efefef 25%,transparent 25%,transparent 75%,#efefef 75%,#efefef),-webkit-linear-gradient(45deg,#efefef 25%,transparent 25%,transparent 75%,#efefef 75%,#efefef);
+    background-position: 0 0,10px 10px;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .container, .container-fluid {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 

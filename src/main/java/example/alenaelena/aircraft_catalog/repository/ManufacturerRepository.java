@@ -1,8 +1,13 @@
 package example.alenaelena.aircraft_catalog.repository;
 
 import example.alenaelena.aircraft_catalog.model.Manufacturer;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long> {
-    public Manufacturer findByName(String name);
+import java.util.List;
+
+public interface ManufacturerRepository extends PagingAndSortingRepository<Manufacturer, Long> {
+    Manufacturer findFirstById(long id);
+
+    @Override
+    List<Manufacturer> findAll();
 }

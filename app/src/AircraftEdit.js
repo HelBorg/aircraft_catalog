@@ -9,13 +9,17 @@ class AircraftEdit extends Component {
         number: '',
         model: ' ',
         year: ' ',
-        capacity: ' '
+        capacity: ' ',
+        manufacturer: {}
+        // airline: {}
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            aircraft: this.emptyAircraft
+            aircraft: this.emptyAircraft,
+            manufacturers: []
+            // airlines: []
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,10 +27,22 @@ class AircraftEdit extends Component {
 
     async componentDidMount() {
 
+        const responseManufacturer = await fetch('/api/manufacturer');
+        const bodyManufacturer = await responseManufacturer.json();
+        this.emptyAircraft.manufacturer = bodyManufacturer[0];
+
+        // const responseAirline = await fetch('/api/airline');
+        // const bodyAirline = await responseAirline.json();
+        // this.emptyAircraft.airlines = bodyAirline[0];
+
+
         if (this.props.match.params.id !== 'new') {
             const aircraft = await (await fetch(`/api/aircraft/${this.props.match.params.id}`)).json();
             this.setState({aircraft: aircraft});
         }
+        this.setState({manufacturers: bodyManufacturer
+                        // airlines: bodyAirline
+                    });
     }
 
     handleChange(event) {
@@ -34,7 +50,15 @@ class AircraftEdit extends Component {
         const value = target.value;
         const name = target.name;
         let aircraft = {...this.state.aircraft};
-        aircraft[name] = value;
+        if(name === "manufacturer") {
+            // const val = (value) ? "1" : value;
+            // aircraft[name] = this.state.manufacturers.find(manufacturer => manufacturer.id === value);
+        // }
+        // else if (name === "airline") {
+        //     aircraft[name] = this.state.airlines.find(airline => airline.id === value);
+        } else {
+            aircraft[name] = value;
+        }
         this.setState({aircraft});
     }
 
@@ -42,7 +66,7 @@ class AircraftEdit extends Component {
         event.preventDefault();
         const {aircraft} = this.state;
 
-        await fetch('/api/aircraft/edit/new', {
+        await fetch('/api/aircraft/edit', {
             method: (aircraft.id) ? 'PUT' : 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -55,8 +79,69 @@ class AircraftEdit extends Component {
     }
 
     render() {
-        const {aircraft} = this.state;
+        const {aircraft, manufacturers} = this.state;
         const title = <h2>{aircraft.id ? 'Edit Aircraft' : 'Add Aircraft'}</h2>;
+        let selectedNotPres = 1;
+        const manufacturerList = manufacturers.map( manufacturer => {
+            if (manufacturer.id !== 1) {
+                if ((aircraft.manufacturer)&&(selectedNotPres === 1)) {
+                    if (aircraft.manufacturer.id === manufacturer.id) {
+                        selectedNotPres = 0;
+                        return (
+                            <option selected>
+                                {manufacturer.name}
+                            </option>
+                        );
+                    }
+                }
+                return (
+                    <option value={manufacturer.id}>
+                        {manufacturer.name}
+                    </option>
+                );
+            }
+        });
+
+        const manufListFinal = [];
+        if (selectedNotPres) {
+            manufListFinal.push(<option selected>Choose...</option>);
+        }
+        manufListFinal.push(manufacturerList);
+
+
+
+        // const airlineList = [];
+        // let counter = 0;
+        // selectedNotPres = 1;
+        // airlines.map( airline => {
+        //     if ((counter)&&(aircraft.airline !== airline)) {
+        //         airlineList.push(
+        //             <option value={counter}>
+        //                 {airline}
+        //             </option>
+        //         );
+        //     } else if (aircraft.airline === airline) {
+        //         airlineList.push(
+        //             <option selected>
+        //                 {airline}
+        //             </option>
+        //         );
+        //         selectedNotPres = 0;
+        //     }
+        //     counter = counter + 1;
+        // });
+
+        // const airlineListFinal = [];
+        // if(selectedNotPres) {
+        //     airlineListFinal.push(
+        //         <option selected>
+        //             Choose...
+        //         </option>
+        //     )
+        // }
+        // airlineListFinal.push(airlist);
+
+
 
         return <div>
             <AppNavbar/>
@@ -83,11 +168,20 @@ class AircraftEdit extends Component {
                         <Input type="text" name="capacity" id="capacity" value={aircraft.capacity || ''}
                                onChange={this.handleChange} autoComplete="capacity"/>
                     </FormGroup>
+                    <FormGroup>
+                        <Label for="manufacturer">Manufacturer</Label>
+                        <Input type="select"  name="manufacturer"
+                               id="manufacturer"
+                               onChange={this.handleChange}>
+                            {manufListFinal}
+                        </Input>
+                    </FormGroup>
                     {/*<FormGroup>*/}
-                        {/*<Label for="manufacturer">Manufacturer</Label>*/}
-                        {/*<Input type="select" name="manufacturer" id="manufacturer" value={aircraft.manufacturer.id || ''}
-                        onChange={this.handleChange}>*/}
-                            {/*{manufacturerList}*/}
+                        {/*<Label for="airline">Airline</Label>*/}
+                        {/*<Input type="select"  name="airline"*/}
+                               {/*id="airline"*/}
+                               {/*onChange={this.handleChange}>*/}
+                            {/*{airlineListFinal}*/}
                         {/*</Input>*/}
                     {/*</FormGroup>*/}
                     <FormGroup>

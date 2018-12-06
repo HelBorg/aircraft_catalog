@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import AppNavbar from './AppNavbar';
-import { Link } from 'react-router-dom';
-import { Button, Container } from 'reactstrap';
 
 class Home extends Component {
     render() {
@@ -10,11 +8,6 @@ class Home extends Component {
         return (
             <div>
                 <AppNavbar/>
-
-                <Container fluid>
-                    <Button color="secondary"><Link to="/aircraft">Manage Aircrafts</Link></Button>
-                    <Button color="secondary"><Link to="/manufacturer">Manage Manufacturers</Link></Button>
-                </Container>
             </div>
         );
     }

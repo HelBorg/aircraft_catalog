@@ -12,16 +12,16 @@ class App extends Component {
     render() {
         return (
             <div className="pad_menu">
-            <Router>
-                <Switch>
-                    <Route path='/' exact={true} component={Home}/>
-                    {/*<Route path='/aircraft/:id' component={Aircraft}>*/}
-                    <Route path='/aircraft' exact={true} component={AircraftList}/>
-                    <Route path='/aircraft/edit/:id' exact={true} component={AircraftEdit}/>
-                    <Route path='/manufacturer' exact={true} component={ManufacturerList}/>
-                    <Route path='/manufacturer/edit/:id' exact={true} compponent={ManufacturerEdit}/>
-                </Switch>
-            </Router>
+                <Router>
+                    <Switch>
+                        <Route path='/' exact={true} component={Home}/>
+                        {/*<Route path='/aircraft/:id' component={Aircraft}>*/}
+                        <Route path='/aircraft' exact={true} component={AircraftList}/>
+                        <Route path='/aircraft/edit/:id' component={AircraftEdit}/>
+                        <Route path='/manufacturer' exact={true} component={ManufacturerList}/>
+                        <Route path='/manufacturer/edit/:id' compponent={ManufacturerEdit}/>
+                    </Switch>
+                </Router>
             </div>
         )
     }

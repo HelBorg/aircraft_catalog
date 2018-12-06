@@ -10,6 +10,8 @@ import java.util.List;
 public interface AircraftRepository extends PagingAndSortingRepository<Aircraft, Long> {
     Aircraft findFirstById(long id);
 
+    boolean deleteAircraftsByManufacturer_Id(long Manufacturer_Id);
+
     @Override
     List<Aircraft> findAll();
 }
