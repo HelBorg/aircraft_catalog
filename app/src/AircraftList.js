@@ -84,7 +84,7 @@ class AircraftList extends Component {
                 <td>
                     <ButtonGroup>
                         <Button className="btn_name" size="sm" color="primary" tag={Link} to={"/aircraft/edit/" + aircraft.id}>Edit</Button>
-                        <Button className="btn_name" size="sm"  onClick={() => this.remove(aircraft.id)}>Delete</Button>
+                        <Button className="btn_name" size="sm" onClick={() => this.remove(aircraft.id)}>Delete</Button>
                         <Button className="btn_name" size="sm" color="primary" tag={Link} to={"/aircraft/" + aircraft.id}>More</Button>
                     </ButtonGroup>
                 </td>
@@ -111,7 +111,7 @@ class AircraftList extends Component {
         const perPageNumbers = [];
         perPageNumbers.push(1);
         perPageNumbers.push(3);
-        for(let i = 5; i <= Math.ceil(aircrafts.length); i = i*2) {
+        for(let i = 5; i < Math.ceil(aircrafts.length); i = i*2) {
             perPageNumbers.push(i);
         }
         perPageNumbers.push(aircrafts.length);
@@ -129,24 +129,25 @@ class AircraftList extends Component {
                 );
             } else {
                 return (
-                <Button
-                    key={number}
-                    id={number}
-                    onClick={this.handleChangePerPage}
-                >
-                    {"Все"}
-                </Button>
+                    <Button
+                        key={number}
+                        id={number}
+                        onClick={this.handleChangePerPage}
+                    >
+                        {"Все"}
+                    </Button>
                 );
             }
         });
+
 
         return (
             <div>
                 <AppNavbar/>
                 <Container fluid>
                     <div className="float-right">
-                        <Button className="btn_name" color="success" tag={Link} to="/manufacturer/edit/new">Add Manufacturer</Button>
                         <Button className="btn_name" color="success" tag={Link} to="/aircraft/edit/new">Add Aircraft</Button>
+                        <Button className="btn_name" color="success" tag={Link} to="/manufacturer/edit/new">Add Manufacturer</Button>
                     </div>
                     <h3>Aircraft List</h3>
                     <Table className="mt-4">
@@ -159,15 +160,15 @@ class AircraftList extends Component {
                         </tr>
                         </thead>
                         <tbody>
-                            {aircraftList}
-                            Page:
-                            <ul id="page-numbers">
-                                {renderPageNumbers}
-                            </ul>
-                            Aircrafts per page:
-                            <ul id="page-numbers">
-                                {renderPerPageNumbers}
-                            </ul>
+                        {aircraftList}
+                        Page:
+                        <ul id="page-numbers">
+                            {renderPageNumbers}
+                        </ul>
+                        Aircrafts per page:
+                        <ul id="page-numbers">
+                            {renderPerPageNumbers}
+                        </ul>
                         </tbody>
                     </Table>
                 </Container>

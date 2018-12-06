@@ -11,7 +11,6 @@ class AircraftEdit extends Component {
         year: ' ',
         capacity: ' ',
         manufacturer: {}
-        // airline: {}
     };
 
     constructor(props) {
@@ -19,30 +18,21 @@ class AircraftEdit extends Component {
         this.state = {
             aircraft: this.emptyAircraft,
             manufacturers: []
-            // airlines: []
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     async componentDidMount() {
-
         const responseManufacturer = await fetch('/api/manufacturer');
         const bodyManufacturer = await responseManufacturer.json();
         this.emptyAircraft.manufacturer = bodyManufacturer[0];
-
-        // const responseAirline = await fetch('/api/airline');
-        // const bodyAirline = await responseAirline.json();
-        // this.emptyAircraft.airlines = bodyAirline[0];
-
+        this.setState({manufacturers: bodyManufacturer});
 
         if (this.props.match.params.id !== 'new') {
             const aircraft = await (await fetch(`/api/aircraft/${this.props.match.params.id}`)).json();
             this.setState({aircraft: aircraft});
         }
-        this.setState({manufacturers: bodyManufacturer
-                        // airlines: bodyAirline
-                    });
     }
 
     handleChange(event) {
@@ -50,12 +40,8 @@ class AircraftEdit extends Component {
         const value = target.value;
         const name = target.name;
         let aircraft = {...this.state.aircraft};
-        if(name === "manufacturer") {
-            // const val = (value) ? "1" : value;
-            // aircraft[name] = this.state.manufacturers.find(manufacturer => manufacturer.id === value);
-        // }
-        // else if (name === "airline") {
-        //     aircraft[name] = this.state.airlines.find(airline => airline.id === value);
+        if (name === "manufacturer") {
+            aircraft[name] = this.state.manufacturers.find(manufacturer => manufacturer.id.toLocaleString() === value.toString());
         } else {
             aircraft[name] = value;
         }
@@ -66,7 +52,7 @@ class AircraftEdit extends Component {
         event.preventDefault();
         const {aircraft} = this.state;
 
-        await fetch('/api/aircraft/edit', {
+        await fetch('/api/aircraft/edit/new', {
             method: (aircraft.id) ? 'PUT' : 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -81,6 +67,7 @@ class AircraftEdit extends Component {
     render() {
         const {aircraft, manufacturers} = this.state;
         const title = <h2>{aircraft.id ? 'Edit Aircraft' : 'Add Aircraft'}</h2>;
+
         let selectedNotPres = 1;
         const manufacturerList = manufacturers.map( manufacturer => {
             if (manufacturer.id !== 1) {
@@ -107,41 +94,6 @@ class AircraftEdit extends Component {
             manufListFinal.push(<option selected>Choose...</option>);
         }
         manufListFinal.push(manufacturerList);
-
-
-
-        // const airlineList = [];
-        // let counter = 0;
-        // selectedNotPres = 1;
-        // airlines.map( airline => {
-        //     if ((counter)&&(aircraft.airline !== airline)) {
-        //         airlineList.push(
-        //             <option value={counter}>
-        //                 {airline}
-        //             </option>
-        //         );
-        //     } else if (aircraft.airline === airline) {
-        //         airlineList.push(
-        //             <option selected>
-        //                 {airline}
-        //             </option>
-        //         );
-        //         selectedNotPres = 0;
-        //     }
-        //     counter = counter + 1;
-        // });
-
-        // const airlineListFinal = [];
-        // if(selectedNotPres) {
-        //     airlineListFinal.push(
-        //         <option selected>
-        //             Choose...
-        //         </option>
-        //     )
-        // }
-        // airlineListFinal.push(airlist);
-
-
 
         return <div>
             <AppNavbar/>
@@ -176,14 +128,6 @@ class AircraftEdit extends Component {
                             {manufListFinal}
                         </Input>
                     </FormGroup>
-                    {/*<FormGroup>*/}
-                        {/*<Label for="airline">Airline</Label>*/}
-                        {/*<Input type="select"  name="airline"*/}
-                               {/*id="airline"*/}
-                               {/*onChange={this.handleChange}>*/}
-                            {/*{airlineListFinal}*/}
-                        {/*</Input>*/}
-                    {/*</FormGroup>*/}
                     <FormGroup>
                         <Button color="primary" type="submit">Save</Button>
                         <Button color="secondary" tag={Link} to="/aircraft">Cancel</Button>

@@ -37,7 +37,7 @@ public class    ManufacturerController {
     }
 
     @PostMapping("/edit/new")
-    public ResponseEntity<Manufacturer> createManufacturer(@Valid @RequestBody Manufacturer manufacturer) throws URISyntaxException {
+    public ResponseEntity   <Manufacturer> createManufacturer(@Valid @RequestBody Manufacturer manufacturer) throws URISyntaxException {
         logger.info("request to create manufacturer: {}", manufacturer);
         Manufacturer result = manufacturerRepository.save(manufacturer);
         return ResponseEntity.created(new URI("/api/manufacturer" + result.getId()))
