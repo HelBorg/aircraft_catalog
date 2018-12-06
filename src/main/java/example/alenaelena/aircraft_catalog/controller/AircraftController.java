@@ -14,7 +14,7 @@ import java.util.Collection;
 
 @RestController
 @RequestMapping("/api/aircraft")
-public class    AircraftController {
+public class AircraftController {
 
     protected static final Logger logger = LoggerFactory.getLogger(AircraftController.class);
 

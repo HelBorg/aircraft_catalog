@@ -6,7 +6,7 @@ import AppNavbar from './AppNavbar';
 class ManufacturerEdit extends Component {
 
     emptyManufacturer = {
-        model: '',
+        name: '',
         country: ' '
     };
 
@@ -20,6 +20,7 @@ class ManufacturerEdit extends Component {
     }
 
     async componentDidMount() {
+
         if (this.props.match.params.id !== 'new') {
             const manufacturer = await (await fetch(`/api/manufacturer/${this.props.match.params.id}`)).json();
             this.setState({manufacturer: manufacturer});
@@ -30,7 +31,7 @@ class ManufacturerEdit extends Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        let manufacturer = {...this.state.aircraft};
+        let manufacturer = {...this.state.manufacturer};
         manufacturer[name] = value;
         this.setState({manufacturer});
     }
@@ -53,7 +54,7 @@ class ManufacturerEdit extends Component {
 
     render() {
         const {manufacturer} = this.state;
-        const title = <h2>{manufacturer.id ? 'Edit Manufacturer' : 'Add Manufacturer'}</h2>;
+        const title = <h2>{manufacturer.id ? 'Edit Manufacturer' : 'AddManufacturer'}</h2>;
 
         return <div>
             <AppNavbar/>

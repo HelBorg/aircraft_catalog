@@ -12,7 +12,7 @@ class AircraftList extends Component {
             aircrafts: [],
             isLoading: true,
             currentPage: 1,
-            aircraftsPerPage: 3
+            aircraftsPerPage: 4
         };
         this.remove = this.remove.bind(this);
         this.handleChangePage = this.handleChangePage.bind(this);

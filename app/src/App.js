@@ -19,7 +19,7 @@ class App extends Component {
                         <Route path='/aircraft' exact={true} component={AircraftList}/>
                         <Route path='/aircraft/edit/:id' component={AircraftEdit}/>
                         <Route path='/manufacturer' exact={true} component={ManufacturerList}/>
-                        <Route path='/manufacturer/edit/:id' compponent={ManufacturerEdit}/>
+                        <Route path='/manufacturer/edit/:id' component={ManufacturerEdit}/>
                     </Switch>
                 </Router>
             </div>

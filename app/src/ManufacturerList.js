@@ -84,10 +84,9 @@ class ManufacturerList extends Component {
                     <td style={{whiteSpace: 'nowrap'}}>{manufacturer.country}</td>
                     <td>
                         <ButtonGroup>
-                            <Button size="sm" color="primary" tag={Link}
-                                    to={"/manufacturer/edit/" + manufacturer.id}>Edit</Button>
-                            <Button size="sm" color="danger"
-                                    onClick={() => this.remove(manufacturer.id)}>Delete</Button>
+                            <Button className="btn_name" size="sm" color="primary" tag={Link} to={"/manufacturer/edit/" + manufacturer.id}>Edit</Button>
+                            <Button className="btn_name" size="sm" onClick={() => this.remove(manufacturer.id)}>Delete</Button>
+                            <Button className="btn_name" size="sm" color="primary" tag={Link} to={"/manufacturer/" + manufacturer.id}>More</Button>
                         </ButtonGroup>
                     </td>
                 </tr>
@@ -114,7 +113,7 @@ class ManufacturerList extends Component {
         const perPageNumbers = [];
         perPageNumbers.push(1);
         perPageNumbers.push(3);
-        for(let i = 5; i <= Math.ceil(manufacturers.length); i = i*2) {
+        for(let i = 5; i < Math.ceil(manufacturers.length); i = i*2) {
             perPageNumbers.push(i);
         }
         perPageNumbers.push(manufacturers.length);
