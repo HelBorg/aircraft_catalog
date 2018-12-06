@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Button, ButtonGroup, Container, Table, Jumbotron, Pagination, PaginationItem, PaginationLink} from 'reactstrap';
+import {Button, ButtonGroup, Container, Table, Jumbotron, Pagination, PaginationItem,
+    PaginationLink, Row, Col, Label, Input, FormGroup, Form} from 'reactstrap';
 import AppNavbar from './AppNavbar';
 import {Link} from 'react-router-dom';
 
@@ -10,15 +11,17 @@ class AircraftList extends Component {
         super(props);
         this.state = {
             aircrafts: [],
+            fields: [],
+            aircraftInfo: 0,
             isLoading: true,
             currentPage: 1,
-            aircraftsPerPage: 2,
-            aircraftInfo: 0
+            aircraftsPerPage: 2
         };
         this.remove = this.remove.bind(this);
         this.handleChangePage = this.handleChangePage.bind(this);
         this.handleChangePerPage = this.handleChangePerPage.bind(this);
         this.handleInfo = this.handleInfo.bind(this);
+        this.handleChangeForm = this.handleChangeForm.bind(this);
     }
 
     componentDidMount() {
@@ -63,8 +66,19 @@ class AircraftList extends Component {
         })
     }
 
+    handleChangeForm(event) {
+        const name = event.target.id;
+        const aircrafts = this.state.aircrafts;
+        if (name === "aircraft.name") {
+            const aircraft = aircrafts.find(aircraft => aircraft.name === event.target.value);
+            this.setState({aircraftInfo: aircraft.id})
+        } else if (name === "aircraftSort") {
+            const aircraftsSort = aircrafts.sort()
+        }
+    }
+
     render() {
-        const {aircrafts, isLoading, currentPage, aircraftsPerPage, aircraftInfo} = this.state;
+        const {aircrafts, fields, isLoading, currentPage, aircraftsPerPage, aircraftInfo} = this.state;
 
         //is loading
         if (isLoading) {
@@ -148,6 +162,17 @@ class AircraftList extends Component {
                 </tr>
         });
 
+        //Fields
+        let counter = 0;
+        const fieldsList = fields.map(field => {
+            counter = counter + 1;
+            return (
+                <option value={counter}>
+                    {field}
+                </option>
+            );
+        });
+
 
         //Pagination
         const pageNumbers = [];
@@ -229,6 +254,25 @@ class AircraftList extends Component {
                             Manufacturer</Button>
                     </div>
                     <h3>Aircraft List</h3>
+                    <Form onSubmit={this.handleSubmit}>
+                        <Row form>
+                            <Col md={6}>
+                                <FormGroup>
+                                    <Label for="aircraft.name">Search</Label>
+                                    <Input type="text" name="aircraft.name" id="aircraft.name"
+                                           onChange={this.handleChangeForm}/>
+                                </FormGroup>
+                            </Col>
+                            <Col md={6}>
+                                <FormGroup>
+                                    <Label for="aircraftSort">Sort by</Label>
+                                    <Input type="select" name="aircraftSort" id="aircraftSort"
+                                           onChangw={this.handleChangeForm}/>
+                                    {fieldsList}
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                    </Form>
                     {moreInfo}
                     <Table className="mt-4">
                         <thead>
