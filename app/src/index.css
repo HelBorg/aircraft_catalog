@@ -24,3 +24,11 @@ code {
   user-select: none;
   cursor: pointer;
 }
+
+#font {
+  font-size: x-small;
+}
+
+#color {
+  color: #6a5cff;
+}

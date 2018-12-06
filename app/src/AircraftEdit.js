@@ -175,8 +175,8 @@ class AircraftEdit extends Component {
                         </Input>
                     </FormGroup>
                     <FormGroup>
-                        <Button color="primary" type="submit">Save</Button>
-                        <Button color="secondary" tag={Link} to="/aircraft">Cancel</Button>
+                        <Button className="btn_name" color="primary" type="submit">Save</Button>
+                        <Button className="btn_name" color="secondary" tag={Link} to="/aircraft">Cancel</Button>
                     </FormGroup>
                 </Form>
             </Container>

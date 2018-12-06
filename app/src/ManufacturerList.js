@@ -82,11 +82,11 @@ class ManufacturerList extends Component {
                 return <tr key={manufacturer.id}>
                     <td style={{whiteSpace: 'nowrap'}}>{manufacturer.name}</td>
                     <td style={{whiteSpace: 'nowrap'}}>{manufacturer.country}</td>
+                    <td></td>
                     <td>
                         <ButtonGroup>
                             <Button className="btn_name" size="sm" color="primary" tag={Link} to={"/manufacturer/edit/" + manufacturer.id}>Edit</Button>
                             <Button className="btn_name" size="sm" onClick={() => this.remove(manufacturer.id)}>Delete</Button>
-                            <Button className="btn_name" size="sm" color="primary" tag={Link} to={"/manufacturer/" + manufacturer.id}>More</Button>
                         </ButtonGroup>
                     </td>
                 </tr>
@@ -155,9 +155,10 @@ class ManufacturerList extends Component {
                     <Table className="mt-4">
                         <thead>
                         <tr>
-                            <th width="30%">Name</th>
-                            <th width="30%">Country</th>
-                            <th width="40%">Actions</th>
+                            <th width="20%">Name</th>
+                            <th width="20%">Country</th>
+                            <th width="30%"></th>
+                            <th width="30%">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
