@@ -10,14 +10,16 @@ class AircraftEdit extends Component {
         model: ' ',
         year: ' ',
         capacity: ' ',
-        manufacturer: {}
+        manufacturer: {},
+        airline: {}
     };
 
     constructor(props) {
         super(props);
         this.state = {
             aircraft: this.emptyAircraft,
-            manufacturers: []
+            manufacturers: [],
+            airlines: []
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,6 +30,11 @@ class AircraftEdit extends Component {
         const bodyManufacturer = await responseManufacturer.json();
         this.emptyAircraft.manufacturer = bodyManufacturer[0];
         this.setState({manufacturers: bodyManufacturer});
+
+        const responseAirline = await fetch('/api/airline');
+        const bodyAirline = await responseAirline.json();
+        this.emptyAircraft.airline = bodyAirline[0];
+        this.setState({airlines: bodyAirline});
 
         if (this.props.match.params.id !== 'new') {
             const aircraft = await (await fetch(`/api/aircraft/${this.props.match.params.id}`)).json();
@@ -65,7 +72,7 @@ class AircraftEdit extends Component {
     }
 
     render() {
-        const {aircraft, manufacturers} = this.state;
+        const {aircraft, manufacturers, airlines} = this.state;
         const title = <h2>{aircraft.id ? 'Edit Aircraft' : 'Add Aircraft'}</h2>;
 
         let selectedNotPres = 1;
@@ -94,6 +101,37 @@ class AircraftEdit extends Component {
             manufListFinal.push(<option selected>Choose...</option>);
         }
         manufListFinal.push(manufacturerList);
+
+        const airlineList = [];
+        let counter = 0;
+        selectedNotPres = 1;
+        airlines.map( airline => {
+            if ((counter)&&(aircraft.airline !== airline)) {
+                airlineList.push(
+                    <option value={counter}>
+                        {airline}
+                    </option>
+                );
+            } else if ((aircraft.airline === airline)&&(aircraft.airline)&&(counter)) {
+                airlineList.push(
+                    <option selected>
+                        {airline}
+                    </option>
+                );
+                selectedNotPres = 0;
+            }
+            counter = counter + 1;
+        });
+
+        const airlineListFinal = [];
+        if(selectedNotPres) {
+            airlineListFinal.push(
+                <option selected>
+                    Choose...
+                </option>
+            )
+        }
+        airlineListFinal.push(airlineList);
 
         return <div>
             <AppNavbar/>
@@ -126,6 +164,14 @@ class AircraftEdit extends Component {
                                id="manufacturer"
                                onChange={this.handleChange}>
                             {manufListFinal}
+                        </Input>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="airline">Airline</Label>
+                        <Input type="select" name="airline"
+                               id="airline"
+                               onChange={this.handleChange}>
+                            {airlineListFinal}
                         </Input>
                     </FormGroup>
                     <FormGroup>

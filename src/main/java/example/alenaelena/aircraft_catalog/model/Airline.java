@@ -1,7 +1,7 @@
 package example.alenaelena.aircraft_catalog.model;
 
 public enum Airline {
-    ____,
+    _,
     Pobeda,
     Ellinair,
     Israel_Airlines,

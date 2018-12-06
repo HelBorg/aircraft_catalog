@@ -81,6 +81,7 @@ class AircraftList extends Component {
                 <td style={{whiteSpace: 'nowrap'}}>{aircraft.number}</td>
                 <td style={{whiteSpace: 'nowrap'}}>{aircraft.model}</td>
                 <td style={{whiteSpace: 'nowrap'}}>{aircraft.manufacturer.name}</td>
+                <td style={{whiteSpase: 'nowrap'}}>{aircraft.airline}</td>
                 <td>
                     <ButtonGroup>
                         <Button className="btn_name" size="sm" color="primary" tag={Link} to={"/aircraft/edit/" + aircraft.id}>Edit</Button>
@@ -153,9 +154,10 @@ class AircraftList extends Component {
                     <Table className="mt-4">
                         <thead>
                         <tr>
-                            <th width="30%">Number</th>
+                            <th width="20%">Number</th>
                             <th width="20%">Model</th>
-                            <th width="30%">Manufacturer</th>
+                            <th width="20%">Manufacturer</th>
+                            <th width="20%">Airline</th>
                             <th width="20%">Actions</th>
                         </tr>
                         </thead>
