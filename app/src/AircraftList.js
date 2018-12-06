@@ -66,6 +66,7 @@ class AircraftList extends Component {
     render() {
         const {aircrafts, isLoading, currentPage, aircraftsPerPage, aircraftInfo} = this.state;
 
+        //is loading
         if (isLoading) {
             return (
                 <div>
@@ -79,15 +80,57 @@ class AircraftList extends Component {
             );
         }
 
+        //Aircraft List
         const indexOfLastAircraft = currentPage * aircraftsPerPage;
         const indexOfFirstAircraft = indexOfLastAircraft - aircraftsPerPage;
         const currentAircrafts = aircrafts.slice(indexOfFirstAircraft, indexOfLastAircraft);
 
-        let counter = 0;
+        const moreInfo = currentAircrafts.map(aircraft => {
+           if (aircraft.id === aircraftInfo) {
+               return (
+                   <Table className="mt-4" borderless={true}>
+                       <tbody>
+                       <tr key={1}>
+                           <td style={{whiteSpace: 'nowrap'}}>{aircraft.number}</td>
+                           <td>
+                               <ButtonGroup>
+                                   <Button className="btn_name" size="sm" color="primary" tag={Link}
+                                           to={"/aircraft/edit/" + aircraft.id}>Edit</Button>
+                                   <Button className="btn_name" size="sm"
+                                           onClick={() => this.remove(aircraft.id)}>Delete</Button>
+                                   <Button className="btn_name" size="sm" color="primary"
+                                           onClick={() => this.handleInfo(0)}>Hide</Button>
+                               </ButtonGroup>
+                           </td>
+                       </tr>
+                       <tr key={2}>
+                           <td>Model:</td>
+                           <td>{aircraft.model}</td>
+                       </tr>
+                       <tr key={3}>
+                           <td>Year:</td>
+                           <td>{aircraft.year}</td>
+                       </tr>
+                       <tr key={4}>
+                           <td>Capacity:</td>
+                           <td>{aircraft.capacity}</td>
+                       </tr>
+                       <tr key={5}>
+                           <td>Manufacturer:</td>
+                           <td>{aircraft.manufacturer.name}</td>
+                       </tr>
+                       <tr key={6}>
+                           <td>from</td>
+                           <td>{aircraft.manufacturer.country}</td>
+                       </tr>
+                       </tbody>
+                   </Table>
+               );
+           }
+        });
+
         const aircraftList = currentAircrafts.map(aircraft => {
-            if (aircraft.id !== aircraftInfo) {
-                counter = counter + 1;
-                return <tr key={counter}>
+            return <tr key={aircraft.id}>
                     <td style={{whiteSpace: 'nowrap'}}>{aircraft.number}</td>
                     <td style={{whiteSpace: 'nowrap'}}>{aircraft.model}</td>
                     <td style={{whiteSpace: 'nowrap'}}>{aircraft.manufacturer.name}</td>
@@ -103,46 +146,10 @@ class AircraftList extends Component {
                         </ButtonGroup>
                     </td>
                 </tr>
-            } else {
-                counter = counter + 6;
-                return (
-                    <Table bordered>
-                        <tbody>
-                        <tr key={counter - 5}>
-                            <td width="30%" style={{whiteSpace: 'nowrap'}}>{aircraft.number}</td>
-                            <td width="30%">
-                                <ButtonGroup>
-                                    <Button className="btn_name" size="sm" color="primary" tag={Link}
-                                            to={"/aircraft/edit/" + aircraft.id}>Edit</Button>
-                                    <Button className="btn_name" size="sm"
-                                            onClick={() => this.remove(aircraft.id)}>Delete</Button>
-                                    <Button className="btn_name" size="sm" color="primary"
-                                            onClick={() => this.handleInfo(0)}>Less</Button>
-                                </ButtonGroup>
-                            </td>
-                        </tr>
-                        <tr key={counter - 4}>
-                            <td>Model:</td> <td>{aircraft.model}</td>
-                        </tr>
-                        <tr key={counter - 3}>
-                            <td>Year:</td> <td>{aircraft.year}</td>
-                        </tr>
-                        <tr key={counter - 2}>
-                            <td>Capacity:</td> <td>{aircraft.capacity}</td>
-                        </tr>
-                        <tr key={counter - 1}>
-                            <td>Manufacturer:</td> <td>{aircraft.manufacturer.name}</td>
-                        </tr>
-                        <tr key={counter}>
-                            <td>from</td> <td>{aircraft.manufacturer.country}</td>
-                        </tr>
-                        </tbody>
-                    </Table>
-                )
-            }
         });
 
 
+        //Paganation
         const pageNumbers = [];
         pageNumbers.push(1);
         const first = (currentPage - 3 < 2) ? 2 : currentPage - 3;
@@ -185,6 +192,7 @@ class AircraftList extends Component {
         });
 
 
+        //AircraftsPerPage
         const perPageNumbers = [];
         perPageNumbers.push(2);
         for (let i = 5; i < aircrafts.length; i = i * 2) {
@@ -221,6 +229,7 @@ class AircraftList extends Component {
                             Manufacturer</Button>
                     </div>
                     <h3>Aircraft List</h3>
+                    {moreInfo}
                     <Table className="mt-4">
                         <thead>
                         <tr>
