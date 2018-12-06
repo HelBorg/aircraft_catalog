@@ -245,11 +245,17 @@ class AircraftList extends Component {
                         Page:
                         <Pagination>
                             <PaginationItem>
-                                <PaginationLink previous href="#"/>
+                                <PaginationLink previous
+                                                key={currentPage - 1}
+                                                id={currentPage - 1}
+                                                onClick={this.handleChangePerPage}/>
                             </PaginationItem>
                             {renderPageNumbers}
                             <PaginationItem>
-                                <PaginationLink next href="#"/>
+                                <PaginationLink next
+                                                key={currentPage + 1}
+                                                id={currentPage + 1}
+                                                onClick={this.handleChangePerPage}/>
                             </PaginationItem>
                         </Pagination>
                         Aircrafts per page:

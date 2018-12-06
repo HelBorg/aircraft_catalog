@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, ButtonGroup, Container, Table, Jumbotron} from 'reactstrap';
+import { Button, ButtonGroup, Container, Table, Jumbotron, Pagination, PaginationLink, PaginationItem} from 'reactstrap';
 import AppNavbar from './AppNavbar';
 import { Link } from 'react-router-dom';
 
@@ -93,53 +93,74 @@ class ManufacturerList extends Component {
             }
         });
 
+
+        //Pagination
         const pageNumbers = [];
-        for (let i = 1; i <= Math.ceil(manufacturers.length / manufacturersPerPage); i++) {
+        pageNumbers.push(1);
+        const first = (currentPage - 3 < 2) ? 2 : currentPage - 3;
+        const last = (currentPage + 4 > Math.ceil(manufacturers.length / manufacturersPerPage)) ?
+            Math.ceil(manufacturers.length / manufacturersPerPage) - 1 : currentPage + 3;
+        for (let i = first; i <= last; i++) {
             pageNumbers.push(i);
         }
+        if (Math.ceil(manufacturers.length / manufacturersPerPage) !== 1) {
+            pageNumbers.push(Math.ceil(manufacturers.length / manufacturersPerPage));
+        }
 
+        let prevNum = 0;
         const renderPageNumbers = pageNumbers.map(number => {
-            return (
-                <Button
-                    key={number}
-                    id={number}
-                    onClick={this.handleChangePage}
-                >
-                    {number}
-                </Button>
+            let active = false;
+            if (number === currentPage) {
+                active = true;
+            }
+            const pageItem = [];
+            if (number - prevNum > 1) {
+                pageItem.push(
+                    <PaginationItem disabled={true}>
+                        <PaginationLink>
+                            ...
+                        </PaginationLink>
+                    </PaginationItem>
+                );
+            }
+            pageItem.push(
+                <PaginationItem active={active}>
+                    <PaginationLink
+                        key={number}
+                        id={number}
+                        onClick={this.handleChangePage}>
+                        {number}
+                    </PaginationLink>
+                </PaginationItem>
             );
+            prevNum = number;
+            return pageItem;
         });
 
+
+        //Manufacturers per page
         const perPageNumbers = [];
-        perPageNumbers.push(1);
-        perPageNumbers.push(3);
-        for(let i = 5; i < Math.ceil(manufacturers.length); i = i*2) {
+        perPageNumbers.push(2);
+        for(let i = 5; i < manufacturers.length; i = i * 2) {
             perPageNumbers.push(i);
         }
         perPageNumbers.push(manufacturers.length);
 
         const renderPerPageNumbers = perPageNumbers.map( number => {
-            if (manufacturers.length !== number) {
-                return (
-                    <Button
-                        key={number}
-                        id={number}
-                        onClick={this.handleChangePerPage}
-                    >
-                        {number}
-                    </Button>
-                );
-            } else {
-                return (
-                    <Button
-                        key={number}
-                        id={number}
-                        onClick={this.handleChangePerPage}
-                    >
-                        {"Все"}
-                    </Button>
-                );
+            let active = false;
+            if (number === manufacturersPerPage) {
+                active = true;
             }
+            return (
+                <PaginationItem active={active}>
+                    <PaginationLink
+                        key={number}
+                        id={number}
+                        onClick={this.handleChangePerPage}>
+                        {number}
+                    </PaginationLink>
+                </PaginationItem>
+            );
         });
 
 
@@ -164,13 +185,25 @@ class ManufacturerList extends Component {
                         <tbody>
                         {manufacturerList}
                         Page:
-                        <ul id="page-numbers">
+                        <Pagination>
+                            <PaginationItem>
+                                <PaginationLink previous
+                                                key={currentPage - 1}
+                                                id={currentPage - 1}
+                                                onClick={this.handleChangePerPage}/>
+                            </PaginationItem>
                             {renderPageNumbers}
-                        </ul>
+                            <PaginationItem>
+                                <PaginationLink next
+                                                key={currentPage + 1}
+                                                id={currentPage + 1}
+                                                onClick={this.handleChangePerPage}/>
+                            </PaginationItem>
+                        </Pagination>
                         Manufacturers per page:
-                        <ul id="page-numbers">
+                        <Pagination>
                             {renderPerPageNumbers}
-                        </ul>
+                        </Pagination>
                         </tbody>
                     </Table>
                 </Container>
