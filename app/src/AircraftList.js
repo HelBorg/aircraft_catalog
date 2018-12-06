@@ -149,7 +149,7 @@ class AircraftList extends Component {
         });
 
 
-        //Paganation
+        //Pagination
         const pageNumbers = [];
         pageNumbers.push(1);
         const first = (currentPage - 3 < 2) ? 2 : currentPage - 3;
@@ -164,7 +164,7 @@ class AircraftList extends Component {
         let prevNum = 0;
         const renderPageNumbers = pageNumbers.map(number => {
             let active = false;
-            if (number === currentPage) {
+              if (number === currentPage) {
                 active = true;
             }
             const pageItem = [];
