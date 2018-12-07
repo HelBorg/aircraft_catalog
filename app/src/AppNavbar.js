@@ -8,17 +8,11 @@ export default class AppNavbar extends Component {
         this.toggle = this.toggle.bind(this);
     }
 
-    toggle() {
-        this.setState({
-            isOpen: !this.state.isOpen
-        });
-    }
-
     render() {
         return <Navbar dark expand="md" color="dark" >
             <Nav>
                 <NavItem>
-                    <NavLink eventKey='1' href="/">Home</NavLink>
+                    <NavLink eventKey='1' href="/">AircraftManager</NavLink>
                 </NavItem>
 
                 <NavItem>

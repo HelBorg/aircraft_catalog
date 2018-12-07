@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {Button, ButtonGroup, Container, Table, Jumbotron, Pagination, PaginationItem,
-    PaginationLink, Row, Col, Label, Input, FormGroup, Form} from 'reactstrap';
+import {Button, ButtonGroup, Container, Table, Jumbotron, Pagination, PaginationItem, PaginationLink,
+ Row, Col, Label, Input, FormGroup, Form, InputGroupAddon, InputGroup} from 'reactstrap';
 import AppNavbar from './AppNavbar';
 import {Link} from 'react-router-dom';
+import Fields from './Fields';
 
 
 class AircraftList extends Component {
@@ -11,17 +12,17 @@ class AircraftList extends Component {
         super(props);
         this.state = {
             aircrafts: [],
-            fields: [],
-            aircraftInfo: 0,
             isLoading: true,
             currentPage: 1,
-            aircraftsPerPage: 2
+            aircraftsPerPage: 2,
+            aircraftInfo: 0
         };
         this.remove = this.remove.bind(this);
         this.handleChangePage = this.handleChangePage.bind(this);
         this.handleChangePerPage = this.handleChangePerPage.bind(this);
         this.handleInfo = this.handleInfo.bind(this);
-        this.handleChangeForm = this.handleChangeForm.bind(this);
+        this.handleChangeSearch = this.handleChangeSearch.bind(this);
+        this.sort = this.sort.bind(this);
     }
 
     componentDidMount() {
@@ -66,19 +67,27 @@ class AircraftList extends Component {
         })
     }
 
-    handleChangeForm(event) {
-        const name = event.target.id;
-        const aircrafts = this.state.aircrafts;
-        if (name === "aircraft.name") {
-            const aircraft = aircrafts.find(aircraft => aircraft.name === event.target.value);
-            this.setState({aircraftInfo: aircraft.id})
-        } else if (name === "aircraftSort") {
-            const aircraftsSort = aircrafts.sort()
-        }
+    async sort() {
+        // await fetch(`/api/aircraft?sort=` + "number", {
+        //     method: 'GET',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     }
+        // });
+    }
+
+    async handleChangeSearch(event) {
+        const value = event.target.value;
+        await fetch(`/api/aircraft?info=` + value + '&sort=0')
+            .then( () =>  {
+                const airInfo = this.state.aircrafts.find(aircraft => aircraft.number === event.target.value);
+                this.setState({aircraftInfo: airInfo});
+            });
     }
 
     render() {
-        const {aircrafts, fields, isLoading, currentPage, aircraftsPerPage, aircraftInfo} = this.state;
+        const {aircrafts, isLoading, currentPage, aircraftsPerPage, aircraftInfo} = this.state;
 
         //is loading
         if (isLoading) {
@@ -100,85 +109,74 @@ class AircraftList extends Component {
         const currentAircrafts = aircrafts.slice(indexOfFirstAircraft, indexOfLastAircraft);
 
         const moreInfo = currentAircrafts.map(aircraft => {
-           if (aircraft.id === aircraftInfo) {
-               return (
-                   <Table className="mt-4" borderless={true}>
-                       <tbody>
-                       <tr key={1}>
-                           <td style={{whiteSpace: 'nowrap'}}>{aircraft.number}</td>
-                           <td>
-                               <ButtonGroup>
-                                   <Button className="btn_name" size="sm" color="primary" tag={Link}
-                                           to={"/aircraft/edit/" + aircraft.id}>Edit</Button>
-                                   <Button className="btn_name" size="sm"
-                                           onClick={() => this.remove(aircraft.id)}>Delete</Button>
-                                   <Button className="btn_name" size="sm" color="primary"
-                                           onClick={() => this.handleInfo(0)}>Hide</Button>
-                               </ButtonGroup>
-                           </td>
-                       </tr>
-                       <tr key={2}>
-                           <td>Model:</td>
-                           <td>{aircraft.model}</td>
-                       </tr>
-                       <tr key={3}>
-                           <td>Year:</td>
-                           <td>{aircraft.year}</td>
-                       </tr>
-                       <tr key={4}>
-                           <td>Capacity:</td>
-                           <td>{aircraft.capacity}</td>
-                       </tr>
-                       <tr key={5}>
-                           <td>Manufacturer:</td>
-                           <td>{aircraft.manufacturer.name}</td>
-                       </tr>
-                       <tr key={6}>
-                           <td>from</td>
-                           <td>{aircraft.manufacturer.country}</td>
-                       </tr>
-                       </tbody>
-                   </Table>
-               );
-           }
+            if (aircraft.id === aircraftInfo) {
+                return (
+                    <Table className="mt-4" borderless={true}>
+                        <tbody>
+                        <tr key={1}>
+                            <td style={{whiteSpace: 'nowrap'}}>{aircraft.number}</td>
+                            <td>
+                                <ButtonGroup>
+                                    <Button className="btn_name" size="sm" color="primary" tag={Link}
+                                            to={"/aircraft/edit/" + aircraft.id}>Edit</Button>
+                                    <Button className="btn_name" size="sm"
+                                            onClick={() => this.remove(aircraft.id)}>Delete</Button>
+                                    <Button className="btn_name" size="sm" color="primary"
+                                            onClick={() => this.handleInfo(0)}>Hide</Button>
+                                </ButtonGroup>
+                            </td>
+                        </tr>
+                        <tr key={2}>
+                            <td>Model:</td>
+                            <td>{aircraft.model}</td>
+                        </tr>
+                        <tr key={3}>
+                            <td>Year:</td>
+                            <td>{aircraft.year}</td>
+                        </tr>
+                        <tr key={4}>
+                            <td>Capacity:</td>
+                            <td>{aircraft.capacity}</td>
+                        </tr>
+                        <tr key={5}>
+                            <td>Manufacturer:</td>
+                            <td>{aircraft.manufacturer.name}</td>
+                        </tr>
+                        <tr key={6}>
+                            <td>from</td>
+                            <td>{aircraft.manufacturer.country}</td>
+                        </tr>
+                        </tbody>
+                    </Table>
+                );
+            }
         });
 
         const aircraftList = currentAircrafts.map(aircraft => {
             return <tr key={aircraft.id}>
-                    <td style={{whiteSpace: 'nowrap'}}>{aircraft.number}</td>
-                    <td style={{whiteSpace: 'nowrap'}}>{aircraft.model}</td>
-                    <td style={{whiteSpace: 'nowrap'}}>{aircraft.manufacturer.name}</td>
-                    <td style={{whiteSpase: 'nowrap'}}>{aircraft.airline}</td>
-                    <td>
-                        <ButtonGroup>
-                            <Button className="btn_name" size="sm" color="primary" tag={Link}
-                                    to={"/aircraft/edit/" + aircraft.id}>Edit</Button>
-                            <Button className="btn_name" size="sm"
-                                    onClick={() => this.remove(aircraft.id)}>Delete</Button>
-                            <Button className="btn_name" size="sm" color="primary"
-                                    onClick={() => this.handleInfo(aircraft.id)}>More</Button>
-                        </ButtonGroup>
-                    </td>
-                </tr>
+                <td style={{whiteSpace: 'nowrap'}}>{aircraft.number}</td>
+                <td style={{whiteSpace: 'nowrap'}}>{aircraft.year}</td>
+                <td style={{whiteSpace: 'nowrap'}}>{aircraft.manufacturer.name}</td>
+                <td style={{whiteSpase: 'nowrap'}}>{aircraft.airline}</td>
+                <td>
+                    <ButtonGroup>
+                        <Button className="btn_name" size="sm" color="primary" tag={Link}
+                                to={"/aircraft/edit/" + aircraft.id}>Edit</Button>
+                        <Button className="btn_name" size="sm"
+                                onClick={() => this.remove(aircraft.id)}>Delete</Button>
+                        <Button className="btn_name" size="sm" color="primary"
+                                onClick={() => this.handleInfo(aircraft.id)}>More</Button>
+                    </ButtonGroup>
+                </td>
+            </tr>
         });
-
-        //Fields
-        let counter = 0;
-        const fieldsList = fields.map(field => {
-            counter = counter + 1;
-            return (
-                <option value={counter}>
-                    {field}
-                </option>
-            );
-        });
-
 
         //Pagination
         const pageNumbers = [];
         pageNumbers.push(1);
         const first = (currentPage - 3 < 2) ? 2 : currentPage - 3;
-        const last = (currentPage + 4 > Math.ceil(aircrafts.length / aircraftsPerPage)) ? Math.ceil(aircrafts.length / aircraftsPerPage) - 1 : currentPage + 3;
+        const last = (currentPage + 4 > Math.ceil(aircrafts.length / aircraftsPerPage)) ?
+            Math.ceil(aircrafts.length / aircraftsPerPage) - 1 : currentPage + 3;
         for (let i = first; i <= last; i++) {
             pageNumbers.push(i);
         }
@@ -189,7 +187,7 @@ class AircraftList extends Component {
         let prevNum = 0;
         const renderPageNumbers = pageNumbers.map(number => {
             let active = false;
-              if (number === currentPage) {
+            if (number === currentPage) {
                 active = true;
             }
             const pageItem = [];
@@ -242,7 +240,6 @@ class AircraftList extends Component {
             );
         });
 
-
         return (
             <div>
                 <AppNavbar/>
@@ -254,26 +251,29 @@ class AircraftList extends Component {
                             Manufacturer</Button>
                     </div>
                     <h3>Aircraft List</h3>
-                    <Form onSubmit={this.handleSubmit}>
+                    {moreInfo}
+                    <Form>
                         <Row form>
                             <Col md={6}>
                                 <FormGroup>
-                                    <Label for="aircraft.name">Search</Label>
-                                    <Input type="text" name="aircraft.name" id="aircraft.name"
-                                           onChange={this.handleChangeForm}/>
+                                    <Label for="info">Search</Label>
+                                    <Input type="text" name="info" id="info"
+                                           onChange={this.handleChangeSearch}/>
                                 </FormGroup>
                             </Col>
                             <Col md={6}>
                                 <FormGroup>
                                     <Label for="aircraftSort">Sort by</Label>
-                                    <Input type="select" name="aircraftSort" id="aircraftSort"
-                                           onChangw={this.handleChangeForm}/>
-                                    {fieldsList}
+                                    <Input type="select" name="sort" id="sort"
+                                           onChange={this.sort(false)}>
+                                        <Fields/>
+                                    </Input>
+                                    <Button className="btn_name" size="sm"
+                                            onClick={() => this.sort(true)}>Sort</Button>
                                 </FormGroup>
                             </Col>
                         </Row>
                     </Form>
-                    {moreInfo}
                     <Table className="mt-4">
                         <thead>
                         <tr>
@@ -286,28 +286,28 @@ class AircraftList extends Component {
                         </thead>
                         <tbody>
                         {aircraftList}
-                        Page:
-                        <Pagination>
-                            <PaginationItem>
-                                <PaginationLink previous
-                                                key={currentPage - 1}
-                                                id={currentPage - 1}
-                                                onClick={this.handleChangePerPage}/>
-                            </PaginationItem>
-                            {renderPageNumbers}
-                            <PaginationItem>
-                                <PaginationLink next
-                                                key={currentPage + 1}
-                                                id={currentPage + 1}
-                                                onClick={this.handleChangePerPage}/>
-                            </PaginationItem>
-                        </Pagination>
-                        Aircrafts per page:
-                        <Pagination>
-                            {renderPerPageNumbers}
-                        </Pagination>
                         </tbody>
                     </Table>
+                    Page:
+                    <Pagination>
+                        <PaginationItem>
+                            <PaginationLink previous
+                                            key={currentPage - 1}
+                                            id={currentPage - 1}
+                                            onClick={this.handleChangePerPage}/>
+                        </PaginationItem>
+                        {renderPageNumbers}
+                        <PaginationItem>
+                            <PaginationLink next
+                                            key={currentPage + 1}
+                                            id={currentPage + 1}
+                                            onClick={this.handleChangePerPage}/>
+                        </PaginationItem>
+                    </Pagination>
+                    Aircrafts per page:
+                    <Pagination>
+                        {renderPerPageNumbers}
+                    </Pagination>
                 </Container>
             </div>
         );

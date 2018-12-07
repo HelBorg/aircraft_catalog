@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collection;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/aircraft")
@@ -25,7 +25,25 @@ public class AircraftController {
     }
 
     @GetMapping
-    public Collection<Aircraft> aircrafts( ) {
+    public Collection<Aircraft> aircrafts() {
+        return aircraftRepository.findAll();
+    }
+
+    @GetMapping
+    public Collection<Aircraft> sortedList(@RequestParam("info") String info,
+                                           @RequestParam("sort") String sort) {
+        if (sort == "0") {
+            return null;
+        }
+        logger.info("Request to sort list of aircrafts");
+        List<Aircraft> aircrafts = aircraftRepository.findAll();
+        Collections.sort(aircrafts, new Comparator<Aircraft>() {
+            @Override
+            public int compare(Aircraft o1, Aircraft o2) {
+                return o1.getNumber().compareTo(o2.getNumber());
+            }
+        });
+        aircraftRepository.saveAll(aircrafts);
         return aircraftRepository.findAll();
     }
 
