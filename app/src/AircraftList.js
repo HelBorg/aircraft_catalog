@@ -3,7 +3,6 @@ import {Button, ButtonGroup, Container, Table, Jumbotron, Pagination, Pagination
  Row, Col, Label, Input, FormGroup, Form, InputGroupAddon, InputGroup} from 'reactstrap';
 import AppNavbar from './AppNavbar';
 import {Link} from 'react-router-dom';
-import Fields from './Fields';
 
 
 class AircraftList extends Component {
@@ -15,14 +14,15 @@ class AircraftList extends Component {
             isLoading: true,
             currentPage: 1,
             aircraftsPerPage: 2,
-            aircraftInfo: 0
+            aircraftInfo: 0,
+            search: 0
         };
         this.remove = this.remove.bind(this);
         this.handleChangePage = this.handleChangePage.bind(this);
         this.handleChangePerPage = this.handleChangePerPage.bind(this);
         this.handleInfo = this.handleInfo.bind(this);
         this.handleChangeSearch = this.handleChangeSearch.bind(this);
-        this.sort = this.sort.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -67,27 +67,21 @@ class AircraftList extends Component {
         })
     }
 
-    async sort() {
-        // await fetch(`/api/aircraft?sort=` + "number", {
-        //     method: 'GET',
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     }
-        // });
+    handleChangeSearch(event) {
+        const value = event.target.value;
+        this.setState({search: value});
     }
 
-    async handleChangeSearch(event) {
-        const value = event.target.value;
-        await fetch(`/api/aircraft?info=` + value + '&sort=0')
-            .then( () =>  {
-                const airInfo = this.state.aircrafts.find(aircraft => aircraft.number === event.target.value);
-                this.setState({aircraftInfo: airInfo});
-            });
+
+    handleSubmit() {
+        const search = this.state.search;
+        const airInfo = this.state.aircrafts.find(aircraft =>
+            aircraft.number.toLocaleString() === search.toString());
+        this.setState({aircraftInfo: airInfo.id});
     }
 
     render() {
-        const {aircrafts, isLoading, currentPage, aircraftsPerPage, aircraftInfo} = this.state;
+        const {aircrafts, isLoading, currentPage, aircraftsPerPage, aircraftInfo, search} = this.state;
 
         //is loading
         if (isLoading) {
@@ -102,6 +96,7 @@ class AircraftList extends Component {
                 </div>
             );
         }
+
 
         //Aircraft List
         const indexOfLastAircraft = currentPage * aircraftsPerPage;
@@ -170,6 +165,7 @@ class AircraftList extends Component {
                 </td>
             </tr>
         });
+
 
         //Pagination
         const pageNumbers = [];
@@ -259,17 +255,8 @@ class AircraftList extends Component {
                                     <Label for="info">Search</Label>
                                     <Input type="text" name="info" id="info"
                                            onChange={this.handleChangeSearch}/>
-                                </FormGroup>
-                            </Col>
-                            <Col md={6}>
-                                <FormGroup>
-                                    <Label for="aircraftSort">Sort by</Label>
-                                    <Input type="select" name="sort" id="sort"
-                                           onChange={this.sort(false)}>
-                                        <Fields/>
-                                    </Input>
-                                    <Button className="btn_name" size="sm"
-                                            onClick={() => this.sort(true)}>Sort</Button>
+                                    <Button className="btn_name" size="sm" color="primary"
+                                            onClick={() => this.handleSubmit()}>Submit</Button>
                                 </FormGroup>
                             </Col>
                         </Row>

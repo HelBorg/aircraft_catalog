@@ -29,24 +29,6 @@ public class AircraftController {
         return aircraftRepository.findAll();
     }
 
-    @GetMapping
-    public Collection<Aircraft> sortedList(@RequestParam("info") String info,
-                                           @RequestParam("sort") String sort) {
-        if (sort == "0") {
-            return null;
-        }
-        logger.info("Request to sort list of aircrafts");
-        List<Aircraft> aircrafts = aircraftRepository.findAll();
-        Collections.sort(aircrafts, new Comparator<Aircraft>() {
-            @Override
-            public int compare(Aircraft o1, Aircraft o2) {
-                return o1.getNumber().compareTo(o2.getNumber());
-            }
-        });
-        aircraftRepository.saveAll(aircrafts);
-        return aircraftRepository.findAll();
-    }
-
     @GetMapping("/{id}")
     public Aircraft getAircraft(@PathVariable Long id) {
         Aircraft aircraft = aircraftRepository.findFirstById(id);

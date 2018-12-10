@@ -86,7 +86,7 @@ class ManufacturerList extends Component {
                     <td>
                         <ButtonGroup>
                             <Button className="btn_name" size="sm" color="primary" tag={Link} to={"/manufacturer/edit/" + manufacturer.id}>Edit</Button>
-                            <Button className="btn_name" size="sm" onClick={() => this.remove(manufacturer.id)}>Delete</Button>
+                            {/*<Button className="btn_name" size="sm" onClick={() => this.remove(manufacturer.id)}>Delete</Button>*/}
                         </ButtonGroup>
                     </td>
                 </tr>
@@ -179,7 +179,7 @@ class ManufacturerList extends Component {
                             <th width="20%">Name</th>
                             <th width="20%">Country</th>
                             <th width="30%"></th>
-                            <th width="30%">Actions</th>
+                            <th width="30%">Action</th>
                         </tr>
                         </thead>
                         <tbody>

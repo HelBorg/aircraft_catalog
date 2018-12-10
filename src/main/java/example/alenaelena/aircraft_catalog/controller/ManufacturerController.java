@@ -54,7 +54,7 @@ public class    ManufacturerController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteManufacturer(@PathVariable Long id) {
         logger.info("request to delete manufacturer: {}", id);
-        aircraftRepository.deleteAircraftsByManufacturer_Id(id);
+//        aircraftRepository.deleteAircraftsByManufacturer_Id(id);
         manufacturerRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
